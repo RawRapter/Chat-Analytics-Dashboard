@@ -13,10 +13,6 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import matplotlib.pyplot as plt
 from deep_translator import GoogleTranslator
 
-"""
-Building the web page
-Created title, icon and layout
-"""
 st.set_page_config(
     page_title="Chat Analytics Dashboard",
     page_icon="🔍",
