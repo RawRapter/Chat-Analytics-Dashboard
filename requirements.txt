@@ -1,0 +1,5 @@
+emoji
+wordcloud
+vaderSentiment
+plotly
+deep-translator
