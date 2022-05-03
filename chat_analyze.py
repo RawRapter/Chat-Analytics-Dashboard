@@ -19,6 +19,7 @@ st.set_page_config(
     layout="wide")
 
 #Styling the Structure
+#https://share.streamlit.io/rawrapter/chat-analytics-dashboard/main/chat_analyze.py
 hide_streamlit_style = """
             <style>
             #MainMenu {visibility: hidden;}
@@ -37,10 +38,8 @@ sid_obj = SentimentIntensityAnalyzer()
 pool = ThreadPool(8)
 stopwords = set(STOPWORDS)
 
-"""
-Creating basic information paragraph for user understanding
-"""
-with st.beta_expander("How to export your Conversation"):
+
+with st.expander("How to export your Conversation"):
     st.write("""To export a copy of the history of an individual chat or group:
   \n1. Open the conversation or group.
   \n2. For Android: Click on three vertical dots on top right corner and select More.  \nFor iOS: Tap on Contact/Group Name.
@@ -171,7 +170,7 @@ if chat_content!=[]:
                 stopwords = stopwords,min_font_size=6).generate(comment_words)
     
     # plot the WordCloud image
-    with st.beta_expander("Tap to View Wordcloud"):       
+    with st.expander("Tap to View Wordcloud"):       
         fig, ax = plt.subplots(figsize = (10, 10),facecolor = 'k')
         ax.imshow(wordcloud,interpolation='bilinear')
         ax.axis("off")
