@@ -110,7 +110,7 @@ if chat_content!=[]:
     df=list_to_DF(chat_content)
     df=data_preperation(df)
 
-    st.subheader("Chat Stats")
+    st.subheader("Conversation Stats")
     st.write("\n")
     st.write("Total Text Messages: ", df.shape[0])
     st.write("Total Media Messages: ", df[df['Media']].shape[0])
@@ -121,7 +121,7 @@ if chat_content!=[]:
     messages_df = df.drop(media_messages_df.index)
 
     author_value_counts = df['author'].value_counts().to_frame()
-    fig0 = px.bar(author_value_counts, y='author', x=author_value_counts.index, labels={'index':'Participants','author':'messages count'}, title="Top Chatter")
+    fig0 = px.bar(author_value_counts, y='author', x=author_value_counts.index,color=author_value_counts ,labels={'index':'Employees','author':'Overall Participation'}, title="Employees Team Interaction")
     st.plotly_chart(fig0)
 
     sort_type = st.selectbox("Sort By:",["Date","Day","Time","Month"])
@@ -137,13 +137,17 @@ if chat_content!=[]:
     sort_df = messages_df.groupby(keyword).sum()
     sort_df['MessageCount'] = messages_df.groupby(keyword).size().values
     sort_df.reset_index(inplace=True)
-    fig = px.line(sort_df, x=keyword, y="MessageCount", title=f"Number of Messages according to {keyword}",)
+    fig = px.line(sort_df, x=keyword, y="Overall Message Count", title=f"Number of Messages according to {keyword}",)
     fig.update_xaxes(nticks=20,showgrid=False)
     st.plotly_chart(fig)
 
-    # emoji distribution
+    """
+    Selecting Partipant for individual visualizations.
+    """
     senders = st.selectbox("Select participant:",messages_df.author.unique())
     dummy_df = messages_df[messages_df['author'] == senders]
+
+    # emoji distribution
     total_emojis_list = list([a for b in dummy_df.emoji_used for a in b])
     emoji_dict = dict(Counter(total_emojis_list))
     emoji_dict = sorted(emoji_dict.items(), key=lambda x: x[1], reverse=True)
