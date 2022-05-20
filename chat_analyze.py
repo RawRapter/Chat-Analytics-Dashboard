@@ -206,7 +206,7 @@ if chat_content!=[]:
                     senti.append("Neutral")
     
     all_sents = Counter(senti)
-    fig6 = px.bar(y=all_sents.values(), x=all_sents.keys(),color=senti,color_discrete_sequence=['green','blue','red'] ,labels={'x':'Sentiment','y':'Messages'},title=f"Sentiments for {senders}")
+    fig6 = px.bar(y=all_sents.values(), x=all_sents.keys(),color=all_sents.keys(),color_discrete_sequence=['green','blue','red'] ,labels={'x':'Sentiment','y':'Interaction'},title=f"Sentiments for {senders}")
     st.plotly_chart(fig6)
     result = max(all_sents,key=all_sents.get)
     st.info(f"{senders} mostly conveys {result} behaviour")
