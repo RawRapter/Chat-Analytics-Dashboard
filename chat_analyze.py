@@ -144,6 +144,14 @@ if chat_content!=[]:
    #emoji distribution
     senders = st.selectbox("Select participant:",messages_df.author.unique())
     dummy_df = messages_df[messages_df['author'] == senders]
+    #Individual Line chart
+    dummy_df1 = dummy_df.groupby(keyword).sum()
+    dummy_df1['MessageCount'] = dummy_df.groupby(keyword).size().values
+    dummy_df1.reset_index(inplace=True)
+    fig2 = px.line(sort_df, x=keyword, y="MessageCount", title=f"Overall Involvement of {senders} in {keyword} wise",)
+    fig2.update_xaxes(nticks=20,showgrid=False)
+    st.plotly_chart(fig2)
+
     total_emojis_list = list([a for b in dummy_df.emoji_used for a in b])
     emoji_dict = dict(Counter(total_emojis_list))
     emoji_dict = sorted(emoji_dict.items(), key=lambda x: x[1], reverse=True)
@@ -178,7 +186,7 @@ if chat_content!=[]:
         st.pyplot(fig)
 
     senti = []
-    with st.spinner(f'Analyzing Sentiment for {senders}.. (This may take some time depending on number of messages)'):
+    with st.spinner(f'Analyzing Sentiment for {senders}.. (This may take some time depending on size of data)'):
         try:
             translation = pool.map(translate_request, dummy_df["message"].values)
         except Exception as e:
@@ -198,10 +206,10 @@ if chat_content!=[]:
                     senti.append("Neutral")
     
     all_sents = Counter(senti)
-    fig6 = px.bar(y=all_sents.values(), x=all_sents.keys(), labels={'x':'Sentiment','y':'Messages'},title=f"Sentiments for {senders}")
+    fig6 = px.bar(y=all_sents.values(), x=all_sents.keys(),color=senti,color_discrete_sequence=['green','blue','red'] ,labels={'x':'Sentiment','y':'Messages'},title=f"Sentiments for {senders}")
     st.plotly_chart(fig6)
     result = max(all_sents,key=all_sents.get)
-    st.info(f"{senders} mostly sends {result} messages")
+    st.info(f"{senders} mostly conveys {result} behaviour")
 
 st.markdown('  <br><br><center>Developed and Maintained by\
              <b><a href="https://www.linkedin.com/in/anantarun" target="_blank">Anant Arun</a></b></center>',unsafe_allow_html=True)
