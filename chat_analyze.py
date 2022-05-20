@@ -121,7 +121,7 @@ if chat_content!=[]:
     messages_df = df.drop(media_messages_df.index)
 
     author_value_counts = df['author'].value_counts().to_frame()
-    fig0 = px.bar(author_value_counts, y='author', x=author_value_counts.index,color='author' ,labels={'index':'Employees','author':'Overall Participation'}, title="Employees Team Interaction")
+    fig0 = px.bar(author_value_counts, y='author', x=author_value_counts.index,color='author',color_continuous_scale='Aggrnyl' ,labels={'index':'Employees','author':'Overall Participation'}, title="Employees Team Interaction")
     st.plotly_chart(fig0)
 
     sort_type = st.selectbox("Sort By:",["Date","Day","Time","Month"])
@@ -207,6 +207,7 @@ if chat_content!=[]:
     
     all_sents = Counter(senti)
     fig6 = px.bar(y=all_sents.values(), x=all_sents.keys(),color=all_sents.keys(),color_discrete_sequence=['green','blue','red'] ,labels={'x':'Sentiment','y':'Interaction'},title=f"Sentiments for {senders}")
+    fig6.update_layout(showlegend=False)
     st.plotly_chart(fig6)
     result = max(all_sents,key=all_sents.get)
     st.info(f"{senders} mostly conveys {result} behaviour")
