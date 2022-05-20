@@ -137,15 +137,13 @@ if chat_content!=[]:
     sort_df = messages_df.groupby(keyword).sum()
     sort_df['MessageCount'] = messages_df.groupby(keyword).size().values
     sort_df.reset_index(inplace=True)
-    fig = px.line(sort_df, x=keyword, y="Overall Message Count", title=f"Number of Messages according to {keyword}")
+    fig = px.line(sort_df, x=keyword, y="MessageCount", title=f"Overall Number of Messages according to {keyword}",)
     fig.update_xaxes(nticks=20,showgrid=False)
     st.plotly_chart(fig)
 
-   
+   #emoji distribution
     senders = st.selectbox("Select participant:",messages_df.author.unique())
     dummy_df = messages_df[messages_df['author'] == senders]
-
-    # emoji distribution
     total_emojis_list = list([a for b in dummy_df.emoji_used for a in b])
     emoji_dict = dict(Counter(total_emojis_list))
     emoji_dict = sorted(emoji_dict.items(), key=lambda x: x[1], reverse=True)
