@@ -211,11 +211,13 @@ if chat_content!=[]:
     st.plotly_chart(fig6)
     result = max(all_sents,key=all_sents.get)
     st.info(f"{senders} mostly conveys {result} behaviour")
+    st.write("\n")
 
-    #Score Distribution
-    if st.checkbox("Score Distribution"):
+    """ if st.checkbox("Score Distribution"):
         fig7 = px.histogram(dummy_df, x="score", title=f"Score Distribution for {senders}")
-        st.plotly_chart(fig7)
+        st.plotly_chart(fig7) """
     
-st.markdown('  <br><br><center>Developed and Maintained by\
-             <b><a href="https://www.linkedin.com/in/anantarun" target="_blank">Anant Arun</a></b></center>',unsafe_allow_html=True)
+    if st.checkbox(f"Click to check score for the {senders} (Out of 100)"):
+            st.write(f"Score for {senders}: ",(dummy_df['MessageCount'].mean()))
+
+st.markdown('  <br><br><center>Developed and Maintained by <b><a href="https://www.linkedin.com/in/anantarun" target="_blank">Anant Arun</a></b></center>',unsafe_allow_html=True)
