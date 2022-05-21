@@ -217,6 +217,7 @@ if chat_content!=[]:
     
     if st.checkbox(f"Click to check score for the {senders} (Out of 100)"):
         score_df = messages_df.groupby(df['author']).sum()
+        score_df['MessageCount'] = messages_df.groupby(df['author']).size().values
         if score_df['MessageCount'] > 400:
             st.write(f"Score for {senders}: ",random.randint(80,100))
         elif score_df['MessageCount'] > 300:
