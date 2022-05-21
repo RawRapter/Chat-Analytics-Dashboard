@@ -7,6 +7,7 @@ import io
 from collections import Counter
 from datetime import datetime
 import plotly.express as px
+from numpy import random
 from multiprocessing.dummy import Pool as ThreadPool
 from wordcloud import WordCloud, STOPWORDS
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
@@ -213,11 +214,12 @@ if chat_content!=[]:
     st.info(f"{senders} mostly conveys {result} behaviour")
     st.write("\n")
 
-    """ if st.checkbox("Score Distribution"):
-        fig7 = px.histogram(dummy_df, x="score", title=f"Score Distribution for {senders}")
-        st.plotly_chart(fig7) """
     
     if st.checkbox(f"Click to check score for the {senders} (Out of 100)"):
-            st.write(f"Score for {senders}: ",(dummy_df['MessageCount'].mean()))
+        score_df = messages_df.groupby(df['author']).sum()
+        if score_df['MessageCount'] > 0:
+            score_df['score'] = score_df['MessageCount']/score_df['MessageCount'].sum()*100
+            score_df.reset_index(inplace=True)
+            st.write(f"Score for {senders}: ",score_df['score'])
 
 st.markdown('  <br><br><center>Developed and Maintained by <b><a href="https://www.linkedin.com/in/anantarun" target="_blank">Anant Arun</a></b></center>',unsafe_allow_html=True)
