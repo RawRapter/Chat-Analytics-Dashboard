@@ -217,9 +217,15 @@ if chat_content!=[]:
     
     if st.checkbox(f"Click to check score for the {senders} (Out of 100)"):
         score_df = messages_df.groupby(df['author']).sum()
-        if score_df['MessageCount'] > 0:
-            score_df['score'] = score_df['MessageCount']/score_df['MessageCount'].sum()*100
-            score_df.reset_index(inplace=True)
-            st.write(f"Score for {senders}: ",score_df['score'])
+        if score_df['MessageCount'] > 400:
+            st.write(f"Score for {senders}: ",random.randint(80,100))
+        elif score_df['MessageCount'] > 300:
+            st.write(f"Score for {senders}: ",random.randint(70,80))
+        elif score_df['MessageCount'] > 200:
+            st.write(f"Score for {senders}: ",random.randint(60,70))
+        elif score_df['MessageCount'] > 100:
+            st.write(f"Score for {senders}: ",random.randint(50,60))
+        else:
+            st.write(f"Score for {senders}: ",random.randint(40,50))
 
 st.markdown('  <br><br><center>Developed and Maintained by <b><a href="https://www.linkedin.com/in/anantarun" target="_blank">Anant Arun</a></b></center>',unsafe_allow_html=True)
