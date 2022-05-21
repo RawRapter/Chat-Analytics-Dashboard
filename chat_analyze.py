@@ -216,15 +216,15 @@ if chat_content!=[]:
 
     
     if st.checkbox(f"Click to check score for the {senders} (Out of 100)"):
-        score_df = messages_df.groupby(df['author']).sum()
-        score_df['MessageCount'] = messages_df.groupby(df['author']).size().values
-        if score_df[(score_df['MessageCount'] > 400) & (score_df['author'] == senders)]:
+        score_df = messages_df[messages_df['author'] == senders]
+        score_df['MessageCount'] = score_df.shape[0]
+        if score_df[(score_df['MessageCount'] > 400)].shape[0] > 0:
             st.write(f"Score for {senders}: ",random.randint(80,100))
-        elif score_df[(score_df['MessageCount'] > 300) & (score_df['MessageCount'] < 400) & (score_df['author'] == senders)]:
+        elif score_df[(score_df['MessageCount'] > 300) & (score_df['MessageCount'] < 400)].shape[0] > 0:
             st.write(f"Score for {senders}: ",random.randint(70,80))
-        elif score_df[(score_df['MessageCount'] > 200) & (score_df['MessageCount'] < 300) & (score_df['author'] == senders)]:
+        elif score_df[(score_df['MessageCount'] > 200) & (score_df['MessageCount'] < 300)].shape[0] > 0:
             st.write(f"Score for {senders}: ",random.randint(60,70))
-        elif score_df[(score_df['MessageCount'] > 100) & (score_df['MessageCount'] < 200) & (score_df['author'] == senders)]:
+        elif score_df[(score_df['MessageCount'] > 100) & (score_df['MessageCount'] < 200)].shape[0] > 0:
             st.write(f"Score for {senders}: ",random.randint(50,60))
         else:
             st.write(f"Score for {senders}: ",random.randint(40,50))
