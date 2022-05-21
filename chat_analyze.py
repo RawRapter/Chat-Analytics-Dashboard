@@ -121,7 +121,7 @@ if chat_content!=[]:
     messages_df = df.drop(media_messages_df.index)
 
     author_value_counts = df['author'].value_counts().to_frame()
-    fig0 = px.bar(author_value_counts, y='author', x=author_value_counts.index,color='author',color_continuous_scale='Aggrnyl' ,labels={'index':'Employees','author':'Overall Participation'}, title="Employees Team Interaction")
+    fig0 = px.bar(author_value_counts, y='author', x=author_value_counts.index,color='author',color_continuous_scale='Tealgrn' ,labels={'index':'Employees','author':'Overall Participation'}, title="Employees Team Interaction")
     st.plotly_chart(fig0)
 
     sort_type = st.selectbox("Sort By:",["Date","Day","Time","Month"])
@@ -212,5 +212,10 @@ if chat_content!=[]:
     result = max(all_sents,key=all_sents.get)
     st.info(f"{senders} mostly conveys {result} behaviour")
 
+    #Score Distribution
+    if st.checkbox("Score Distribution"):
+        fig7 = px.histogram(dummy_df, x="score", title=f"Score Distribution for {senders}")
+        st.plotly_chart(fig7)
+    
 st.markdown('  <br><br><center>Developed and Maintained by\
              <b><a href="https://www.linkedin.com/in/anantarun" target="_blank">Anant Arun</a></b></center>',unsafe_allow_html=True)
