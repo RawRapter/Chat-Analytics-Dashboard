@@ -146,7 +146,7 @@ if chat_content!=[]:
     author_df = df["author"].value_counts().reset_index()
     author_df.rename(columns={"index":"author", "author":"Number of messages"}, inplace=True)
     author_df["Total %"] = round(author_df["Number of messages"]*100/df.shape[0], 2)
-    author_df["Talkativeness"] = author_df["Total %"].apply(lambda x: talkativeness(x, df["author"].nunique()))
+    author_df["Involvement"] = author_df["Total %"].apply(lambda x: talkativeness(x, df["author"].nunique()))
     t_author_df = df.copy()
     t_author_df["year"] = t_author_df["date"].apply(lambda x: x.year)
     t_author_df["month"] = t_author_df["date"].apply(lambda x: x.strftime("%b"))
@@ -158,8 +158,8 @@ if chat_content!=[]:
     analysis_1_df["month_year"] = analysis_1_df.apply(lambda x: x["month"] + " " + str(x["year"]), axis=1)
     analysis_1_df.drop(["month", "year"], axis=1, inplace=True)
     analysis_1_df.set_index('month_year',inplace=True)
-    author_df["Messaging trend"] = author_df["author"].apply(lambda x: trendline(analysis_1_df[x]))
-    st.write('Team Involvement Trend Analysis',author_df)
+    author_df["Trend"] = author_df["author"].apply(lambda x: trendline(analysis_1_df[x]))
+    st.write('Overall Team Involvement Trend',author_df)
 
    #emoji distribution
     senders = st.selectbox("Select participant:",messages_df.author.unique())

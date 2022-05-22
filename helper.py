@@ -103,11 +103,11 @@ def talkativeness(percent_message, total_authors):
     threshold = mean*.25
     
     if (percent_message > (mean+threshold)):
-        return ("Very talkative")
+        return ("Totally Involved")
     elif (percent_message < (mean-threshold)):
-        return ("Quiet, untalkative")
+        return ("Quiet, Rarely Involved")
     else:
-        return ("Moderately talkative")
+        return ("Moderately Involved")
     
 ##
 def plot_chart(title='', title_size=40,
