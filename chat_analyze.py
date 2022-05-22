@@ -148,11 +148,11 @@ if chat_content!=[]:
     author_df["Total %"] = round(author_df["Number of messages"]*100/df.shape[0], 2)
     author_df["Talkativeness"] = author_df["Total %"].apply(lambda x: talkativeness(x, df["author"].nunique()))
     t_author_df = df.copy()
-    t_author_df["year"] = t_author_df["Date"].apply(lambda x: x.year)
-    t_author_df["month"] = t_author_df["Date"].apply(lambda x: x.strftime("%b"))
+    t_author_df["year"] = t_author_df["date"].apply(lambda x: x.year)
+    t_author_df["month"] = t_author_df["date"].apply(lambda x: x.strftime("%b"))
     months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     t_author_df['month'] = pd.Categorical(t_author_df['month'], months)
-    analysis_1_df = t_author_df.pivot_table(index=["month", "year"], columns=["author"], values=["Message"], aggfunc="count", fill_value=0)
+    analysis_1_df = t_author_df.pivot_table(index=["month", "year"], columns=["author"], values=["message"], aggfunc="count", fill_value=0)
     analysis_1_df.columns = [col_[1] for col_ in analysis_1_df.columns]
     analysis_1_df = analysis_1_df.reset_index().sort_values(["year", "month"])
     analysis_1_df["month_year"] = analysis_1_df.apply(lambda x: x["month"] + " " + str(x["year"]), axis=1)
