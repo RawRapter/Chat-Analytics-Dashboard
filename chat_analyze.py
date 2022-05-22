@@ -5,7 +5,7 @@ import re
 import emoji
 import io
 from collections import Counter
-from datetime import datetime
+import datetime
 import plotly.express as px
 from numpy import random
 from multiprocessing.dummy import Pool as ThreadPool
@@ -82,7 +82,7 @@ def list_to_DF(list,format=0):
                 msg=str.strip(conversation)
             d=str.strip(dat_time)
             try:
-                dt=datetime.strptime(str.strip(dat_time),date_format[format])
+                dt=datetime.datetime.strptime(str.strip(dat_time),date_format[format])
             except ValueError:
                 return list_to_DF(list,format+1)
             df=df.append({'date_time':dt,'author':aut,'message':str.strip(msg)},ignore_index=True)
@@ -102,7 +102,7 @@ def data_preperation(df):
     df['day'] = df['date_time'].apply(pd.Timestamp.day_name)
     df['month'] = df['date_time'].apply(pd.Timestamp.month_name)
     df['year'] = df['date_time'].apply(year)
-    df['time'] = df['date_time'].apply(pd.Timestamp.time).apply(lambda x: datetime.strptime(str(x), "%H:%M:%S")).apply(lambda x: x.strftime("%I:%M %p"))
+    df['time'] = df['date_time'].apply(pd.Timestamp.time).apply(lambda x: datetime.datetime.strptime(str(x), "%H:%M:%S")).apply(lambda x: x.strftime("%I:%M %p"))
     df['emoji_used'] = df.message.apply(emoji_extract)
     df['Media'] = df.message.str.contains('<Media omitted>')
     df['urlcount'] = df.message.apply(lambda x: re.findall(url_pattern, x)).str.len()
