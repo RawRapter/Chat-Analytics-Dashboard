@@ -13,6 +13,7 @@ from wordcloud import WordCloud, STOPWORDS
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import matplotlib.pyplot as plt
 from deep_translator import GoogleTranslator
+from helper import *
 
 st.set_page_config(
     page_title="Chat Analytics Dashboard",
@@ -141,6 +142,24 @@ if chat_content!=[]:
     fig = px.line(sort_df, x=keyword, y="MessageCount", title=f"Overall Number of Messages according to {keyword}",)
     fig.update_xaxes(nticks=20,showgrid=False)
     st.plotly_chart(fig)
+
+    author_df = df["Author"].value_counts().reset_index()
+    author_df.rename(columns={"index":"Author", "Author":"Number of messages"}, inplace=True)
+    author_df["Total %"] = round(author_df["Number of messages"]*100/df.shape[0], 2)
+    author_df["Talkativeness"] = author_df["Total %"].apply(lambda x: talkativeness(x, df["Author"].nunique()))
+    t_author_df = df.copy()
+    t_author_df["year"] = t_author_df["Date"].apply(lambda x: x.year)
+    t_author_df["month"] = t_author_df["Date"].apply(lambda x: x.strftime("%b"))
+    months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    t_author_df['month'] = pd.Categorical(t_author_df['month'], months)
+    analysis_1_df = t_author_df.pivot_table(index=["month", "year"], columns=["Author"], values=["Message"], aggfunc="count", fill_value=0)
+    analysis_1_df.columns = [col_[1] for col_ in analysis_1_df.columns]
+    analysis_1_df = analysis_1_df.reset_index().sort_values(["year", "month"])
+    analysis_1_df["month_year"] = analysis_1_df.apply(lambda x: x["month"] + " " + str(x["year"]), axis=1)
+    analysis_1_df.drop(["month", "year"], axis=1, inplace=True)
+    analysis_1_df.set_index('month_year',inplace=True)
+    author_df["Messaging trend"] = author_df["Author"].apply(lambda x: trendline(analysis_1_df[x]))
+    st.write('Team Involvement Trend Analysis',author_df)
 
    #emoji distribution
     senders = st.selectbox("Select participant:",messages_df.author.unique())
