@@ -1,6 +1,6 @@
 # Chat-Analytics-Dashboard
 
-This project was created for some college presentation, code has been cloned from Aaryan Verma Repo - https://github.com/Aaryanverma/whatsapp_chat_dashboard and has been modified.
+This project was created for college presentation.
 
 No further changes will be made in this repository.
 
