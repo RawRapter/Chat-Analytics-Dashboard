@@ -234,6 +234,8 @@ if chat_content!=[]:
     st.write("\n")
 
     
+    """ 
+    # This code was made for testing purpose only
     if st.checkbox(f"Click to check score for the {senders} (Out of 100)"):
         score_df = messages_df[messages_df['author'] == senders]
         score_df['MessageCount'] = score_df.shape[0]
@@ -246,6 +248,7 @@ if chat_content!=[]:
         elif score_df[(score_df['MessageCount'] > 100) & (score_df['MessageCount'] < 200)].shape[0] > 0:
             st.write(f"Score for {senders}: ",random.randint(50,60))
         else:
-            st.write(f"Score for {senders}: ",random.randint(40,50))
+            st.write(f"Score for {senders}: ",random.randint(40,50)) 
+    """
 
 st.markdown('  <br><br><center>Developed and Maintained by <b><a href="https://www.linkedin.com/in/anantarun" target="_blank">Anant Arun</a></b></center>',unsafe_allow_html=True)
